@@ -9,9 +9,9 @@ const possibleChoices = document.querySelectorAll('button');
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     playerSelection = e.target.id;
-    playerSelectionDisplay.innerHTML = playerSelection;
+    playerSelectionDisplay.textContent = playerSelection;
     computerSelection = getComputerChoice(options);
-    computerSelectionDisplay.innerHTML = computerSelection;
+    computerSelectionDisplay.textContent = computerSelection;
     playRound(playerSelection, computerSelection);
 }))
 
@@ -40,5 +40,5 @@ function playRound (playerSelection, computerSelection) {
     } else if ((playerSelection === 'scissors') && (computerSelection === 'scissors')) {
         result = ('Draw! Both chose scissors');
     }
-    resultDisplay.innerHTML = result;
+    resultDisplay.textContent = result;
 }
