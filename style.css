@@ -1,0 +1,15 @@
+.bgImage {
+    opacity: 0;
+}
+
+.section {
+    padding: 0;
+    width: 210px;
+    height: 210px;
+    background-image: url('images/bg.png');
+    background-repeat: no-repeat;
+}
+
+.selections {
+    display: flex;
+}

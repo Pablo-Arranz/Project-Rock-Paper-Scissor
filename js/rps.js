@@ -1,18 +1,33 @@
 const options = ['rock', 'paper', 'scissors'];
 const playerSelectionDisplay = document.getElementById('player-selection');
 const computerSelectionDisplay = document.getElementById('computer-selection');
-const resultDisplay = document.getElementById('result');
 let playerSelection;
 let computerSelection;
 let result;
-const possibleChoices = document.querySelectorAll('button');
+const possibleChoices = document.querySelectorAll('img.choices');
+const images = document.querySelector('div.container');
+const resetBtn = document.createElement('button')
+const h1 = document.querySelector('h1');
+const h2 = document.createElement('h2');
+const selections = document.querySelector('.selections')
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     playerSelection = e.target.id;
-    playerSelectionDisplay.textContent = playerSelection;
     computerSelection = getComputerChoice(options);
-    computerSelectionDisplay.textContent = computerSelection;
+    playerSelectionDisplay.src = `images/${playerSelection}.png`;
+    
+    document.body.appendChild(computerSelectionDisplay);
+    createSection();
+        interval = setInterval(changeBg, 50);
+        setTimeout(stopBg, 1500);
     playRound(playerSelection, computerSelection);
+    h2.textContent = result;
+    document.body.appendChild(h2);
+    h1.remove();
+    images.remove();
+    resetBtn.textContent = 'Play again';
+    document.body.appendChild(resetBtn);
+    
 }))
 
 function getComputerChoice (options) {
@@ -40,5 +55,51 @@ function playRound (playerSelection, computerSelection) {
     } else if ((playerSelection === 'scissors') && (computerSelection === 'scissors')) {
         result = ('Draw! Both chose scissors');
     }
-    resultDisplay.textContent = result;
+    console.log(result);
+    return result
+}
+
+function reset() {
+    playerSelectionDisplay.remove();
+    computerSelectionDisplay.remove();
+    resetBtn.remove();
+    h2.remove();
+    section.remove();
+    bgImage.remove();
+    document.body.appendChild(h1);
+    document.body.appendChild(images);
+}
+
+resetBtn.addEventListener('click', function() {reset()});
+
+let section = document.querySelector('.section');
+let interval;
+let bgImage;
+
+function changeBg () {
+
+const imagesArr = [
+    'url("images/rock.png")',
+    'url("images/paper.png")',
+    'url("images/scissors.png")',
+];
+
+const bg = imagesArr[Math.floor(Math.random() * imagesArr.length)];
+section.style.backgroundImage = bg;
+}
+
+function stopBg () {
+clearInterval(interval);
+section.style.backgroundImage = `url("images/${computerSelection}.png")`;
+}
+
+function createSection() {
+    section = document.createElement('div');
+    section.classList.add('section');
+    bgImage = document.createElement('img')
+    bgImage.classList.add('bgImage');
+    bgImage.style.backgroundImage = 'images/bg.png';
+    selections.appendChild(playerSelectionDisplay);
+    selections.appendChild(section);
+    selections.appendChild(bgImage);
 }

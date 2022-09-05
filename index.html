@@ -5,17 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock! Paper! Scissor!</title>
-    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Choose your fighter</h1>
-    <button id="rock">Rock</button>
-    <button id="paper">Paper</button>
-    <button id="scissors">Scissors</button>
+    <div class="container">
+    <img src="images/rock.png" alt="" id="rock" class="choices">
+    <img src="images/paper.png" alt="" id="paper" class="choices">
+    <img src="images/scissors.png" alt="" id="scissors" class="choices">
+    </div>
 
-    <h2>Player: <span id="player-selection"></span></h2>
-    <h2>Computer: <span id="computer-selection"></span></h2>
-    <h2>Result: <span id="result"></span></h2>
+    <div class="selections">
+        <img id="player-selection">
+        <!-- <div class="section">
+        <img id="bgImage" src="images/bg.png"> -->
+        <img id="computer-selection">
+        <!-- </div> -->
+    </div>
     
 </body>
 <script src="js/rps.js"></script>
