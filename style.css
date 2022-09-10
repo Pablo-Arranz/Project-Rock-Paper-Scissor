@@ -127,4 +127,9 @@ button {
         width: 100px;
         height: 100px;
     }
+
+    .modal {
+        width: 90vw;
+        padding: 10px 10px;
+    }
 }
