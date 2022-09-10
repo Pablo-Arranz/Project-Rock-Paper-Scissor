@@ -1,33 +1,50 @@
 const options = ['rock', 'paper', 'scissors'];
-const playerSelectionDisplay = document.getElementById('player-selection');
+let playerSelectionDisplay;
 const computerSelectionDisplay = document.getElementById('computer-selection');
 let playerSelection;
 let computerSelection;
 let result;
 const possibleChoices = document.querySelectorAll('img.choices');
-const images = document.querySelector('div.container');
+const images = document.querySelector('div.content');
 const resetBtn = document.createElement('button')
 const h1 = document.querySelector('h1');
 const h2 = document.createElement('h2');
-const selections = document.querySelector('.selections')
+const selections = document.querySelector('.selections');
+const container = document.querySelector('div.container');
+let playerScore = 0;
+let computerScore = 0;
+const scoreDisplay = document.querySelector('p.score');
+const modalContainer = document.querySelector('div.modal-container');
+const modalButton = document.querySelector('button.modal-result');
+const modalH1 = document.querySelector('h1.result');
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     playerSelection = e.target.id;
     computerSelection = getComputerChoice(options);
+    playerSelectionDisplay = document.createElement('img');
     playerSelectionDisplay.src = `images/${playerSelection}.png`;
-    
-    document.body.appendChild(computerSelectionDisplay);
+    playerSelectionDisplay.id = 'player-selection';
+    selections.appendChild(playerSelectionDisplay);
     createSection();
         interval = setInterval(changeBg, 50);
         setTimeout(stopBg, 1500);
-    playRound(playerSelection, computerSelection);
-    h2.textContent = result;
-    document.body.appendChild(h2);
-    h1.remove();
     images.remove();
-    resetBtn.textContent = 'Play again';
-    document.body.appendChild(resetBtn);
-    
+    h1.textContent = 'Fight!';
+    setTimeout(() => {
+        playRound(playerSelection, computerSelection);
+        h2.textContent = result;
+        container.appendChild(h2);
+        scoreDisplay.textContent = `Player: ${playerScore} Computer: ${computerScore}`;
+        resetBtn.textContent = 'Play again';
+        container.appendChild(resetBtn);
+        if (playerScore == 5) {
+            modalContainer.classList.add('show');
+            modalH1.textContent = 'You beat the game!';
+        } else if (computerScore == 5) {
+            modalContainer.classList.add('show');
+            modalH1.textContent = 'You lost. Try again?';
+        }
+    }, 1550);
 }))
 
 function getComputerChoice (options) {
@@ -40,34 +57,38 @@ function playRound (playerSelection, computerSelection) {
         result = ('Draw! Both chose rock');
     } else if ((playerSelection === 'rock') && (computerSelection === 'paper')) {
         result = ('You lose! Rock loses to paper');
+        computerScore = computerScore + 1;
     } else if ((playerSelection === 'rock') && (computerSelection === 'scissors')) {
         result = ('You win! Rock beats scissors');
+        playerScore = playerScore + 1;
     } else if ((playerSelection === 'paper') && (computerSelection === 'rock')) {
         result = ('You win! Paper beats rock');
+        playerScore = playerScore + 1;
     } else if ((playerSelection === 'paper') && (computerSelection === 'paper')) {
         result = ('Draw! Both chose paper');
     } else if ((playerSelection === 'paper') && (computerSelection === 'scissors')) {
         result = ('You lose! Paper loses to scissors');
+        computerScore = computerScore + 1;
     } else if ((playerSelection === 'scissors') && (computerSelection === 'rock')) {
         result = ('You lose! Scissors lose to rock');
+        computerScore = computerScore + 1;
     } else if ((playerSelection === 'scissors') && (computerSelection === 'paper')) {
         result = ('You win! Scissors beat paper');
+        playerScore = playerScore + 1;
     } else if ((playerSelection === 'scissors') && (computerSelection === 'scissors')) {
         result = ('Draw! Both chose scissors');
     }
-    console.log(result);
     return result
 }
 
 function reset() {
     playerSelectionDisplay.remove();
-    computerSelectionDisplay.remove();
     resetBtn.remove();
     h2.remove();
     section.remove();
     bgImage.remove();
-    document.body.appendChild(h1);
-    document.body.appendChild(images);
+    h1.textContent = 'Choose your fighter';
+    scoreDisplay.before(images);
 }
 
 resetBtn.addEventListener('click', function() {reset()});
@@ -97,9 +118,17 @@ function createSection() {
     section = document.createElement('div');
     section.classList.add('section');
     bgImage = document.createElement('img')
-    bgImage.classList.add('bgImage');
-    bgImage.style.backgroundImage = 'images/bg.png';
+    // bgImage.classList.add('bgImage');
+    // bgImage.style.backgroundImage = 'images/bg.png';
     selections.appendChild(playerSelectionDisplay);
     selections.appendChild(section);
-    selections.appendChild(bgImage);
+    // selections.appendChild(bgImage);
 }
+
+modalButton.addEventListener('click', () => {
+    modalContainer.classList.remove('show');
+    playerScore = 0;
+    computerScore = 0;
+    scoreDisplay.textContent = '';
+    reset();
+})
